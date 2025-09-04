@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Quiz App - Results</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="page page--result">
+  <header class="site-header">
+    <div class="container">
+      <a class="back-link" href="index.html" aria-label="Back to home">← Home</a>
+      <h1 class="site-title">Results</h1>
+      <p class="site-subtitle">Section: <span class="badge">—</span></p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <div class="score">
+        <div class="score__number">8 / 10</div>
+        <div class="score__label">Your Score</div>
+      </div>
+
+      <div class="result-actions">
+        <a class="btn" href="quiz.html?section=if_else">Retry section</a>
+        <a class="btn btn--ghost" href="index.html">Choose another section</a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Review</h2>
+      <ul class="review-list">
+        <li class="review-item review-item--correct">
+          <strong>Q1</strong> Positive / Negative / Zero — <span>Correct</span>
+        </li>
+        <li class="review-item review-item--wrong">
+          <strong>Q2</strong> Largest of three — <span>Wrong</span>
+        </li>
+        <li class="review-item review-item--correct">
+          <strong>Q3</strong> Even/Odd without % — <span>Correct</span>
+        </li>
+        <!-- … add more static items just for layout preview … -->
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 Code Quiz App</small>
+    </div>
+  </footer>
+</body>
+</html>

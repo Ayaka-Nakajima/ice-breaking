@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Quiz App - Home</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="page page--home">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Code Quiz App</h1>
+      <p class="site-subtitle">Select a section you want to study</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section aria-labelledby="sections-heading">
+      <h2 id="sections-heading" class="visually-hidden">Sections</h2>
+      <div class="section-grid">
+        <a class="card" href="quiz.html?section=if_else" aria-label="If/Else problems">
+          <h3 class="card__title">If / Else</h3>
+          <p class="card__desc">Conditionals, comparisons, simple I/O</p>
+        </a>
+        <a class="card" href="quiz.html?section=for_loop" aria-label="For loop problems">
+          <h3 class="card__title">For Loop</h3>
+          <p class="card__desc">Counting, ranges, basic iterations</p>
+        </a>
+        <a class="card" href="quiz.html?section=recursion" aria-label="Recursion problems">
+          <h3 class="card__title">Recursion</h3>
+          <p class="card__desc">Divide-and-conquer style problems</p>
+        </a>
+        <a class="card" href="quiz.html?section=algorithms" aria-label="Algorithm problems">
+          <h3 class="card__title">Algorithms</h3>
+          <p class="card__desc">Search, sort, merge, strings</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 Code Quiz App</small>
+    </div>
+  </footer>
+</body>
+</html>

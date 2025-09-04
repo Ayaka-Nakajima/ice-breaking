@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Code Quiz App - Quiz</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body class="page page--quiz is-loading">
+  <header class="site-header">
+    <div class="container">
+      <a class="back-link" href="index.html" aria-label="Back to home">← Back</a>
+      <h1 class="site-title">Quiz</h1>
+      <p class="site-subtitle">
+        Section: <span id="section-name" class="badge">loading…</span>
+      </p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Loading state (visible when .is-loading on body) -->
+    <section class="panel panel--loading" aria-live="polite">
+      <div class="spinner" aria-hidden="true"></div>
+      <p class="muted">Loading questions…</p>
+    </section>
+
+    <!-- Empty state (make body .is-empty to show) -->
+    <section class="panel panel--empty" aria-live="polite">
+      <h2>No questions yet</h2>
+      <p class="muted">This section has no questions available right now.</p>
+      <a class="btn" href="index.html">Choose another section</a>
+    </section>
+
+    <!-- Ready state (make body .is-ready to show) -->
+    <section class="panel panel--quiz">
+      <header class="quiz-header">
+        <div class="meta">
+          <span class="badge" id="question-counter">Q 1 / 10</span>
+          <span class="badge badge--soft" id="difficulty">difficulty: —</span>
+        </div>
+        <div class="progress">
+          <div class="progress__bar" style="width: 0%;" aria-hidden="true"></div>
+          <span class="visually-hidden" id="progress-label">0% completed</span>
+        </div>
+      </header>
+
+      <article class="question">
+        <h2 class="question__title">Problem</h2>
+        <pre class="question__prompt"><code id="prompt">The problem statement will appear here once data is loaded.</code></pre>
+      </article>
+
+      <div class="actions">
+        <a class="btn btn--ghost" href="index.html">Cancel</a>
+        <!-- 将来JSで result.html へ遷移させる -->
+        <a class="btn" href="result.html">Finish</a>
+      </div>
+
+      <footer class="question-footer">
+        <p class="muted">Tip: Keyboard 1–4 for options (if MCQ), or type your code in the editor (future).</p>
+      </footer>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 Code Quiz App</small>
+    </div>
+  </footer>
+
+  <!-- ※ JSON/JS が入るまではクラスで状態を切り替えるメモ
+       body.is-loading  … panel--loading が表示
+       body.is-empty    … panel--empty が表示
+       body.is-ready    … panel--quiz が表示
+  -->
+</body>
+</html>
