@@ -34,8 +34,7 @@
   </form> 
   <p id="problemOutput"></p>
   <br>
-  <br>
-  <p>Please enter your response here:</p>
+  <p>Please enter your Python here! :</p>
   <div>
     <form>
       <textarea id="userCode" rows="8" cols="60"></textarea>
@@ -85,8 +84,7 @@
       e.preventDefault();
       const num = document.getElementById("problemNum").value;
       if (topic && problemsData[topic]) {
-        const problem = problemsData[topic][num];
-        document.getElementById("problemOutput").innerText = problem;
+        document.getElementById("problemOutput").innerText = "YOUR QUESTION IS: " + problemsData[topic][num].description + " \n TESTCASE: " + problemsData[topic][num].test_cases[0].input;
       } else {
         document.getElementById("problemOutput").innerText = "Pick topic first pls.";
       }
