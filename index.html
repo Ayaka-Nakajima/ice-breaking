@@ -25,7 +25,6 @@
 </form>
   <p id="output"></p>
   <br>
-  <br>
 
 <p>Please pick a number 1-5</p>
    <form id = "problemForm">
@@ -47,8 +46,8 @@
 
   <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   <script>
-    let problemsData = {}; // will store JSON data
-    let topic = ""; // store selected topic
+    let problemsData = {}; 
+    let topic = ""; 
 
     
     fetch('problems.json')
@@ -82,9 +81,11 @@
   
     document.getElementById("problemForm").addEventListener("submit", function (e) {
       e.preventDefault();
+      // const answer = document.getElementById[topic][num].test_cases[0].output;
       const num = document.getElementById("problemNum").value;
       if (topic && problemsData[topic]) {
-        document.getElementById("problemOutput").innerText = "YOUR QUESTION IS: " + problemsData[topic][num].description + " \n TESTCASE: " + problemsData[topic][num].test_cases[0].input;
+        document.getElementById("problemOutput").innerText = "your question is : " + problemsData[topic][num].description + "\n testcase : " + problemsData[topic][num].test_cases[0].input + "\n \n answer should be: " + problemsData[topic][num].test_cases[0].output;
+        // console.log(answer);
       } else {
         document.getElementById("problemOutput").innerText = "Pick topic first pls.";
       }
@@ -107,19 +108,21 @@
       return;
     }
 
-    const userCode = document.getElementById("userCode").value;
+  const userCode = document.getElementById("userCode").value;
 
-    let output = "";
-    pyodide.setStdout({
-      batched:(text) => { output += text; }
-    });
-    pyodide.setStderr({
-      batched:(text) => { output += "Error: " + text; }
-    });
-    
-    pyodide.setStdout({batched: console.log});
-    pyodide.setStderr({batched: console.error});
+  let output = "";
+
+  
+  pyodide.setStdout({ batched:(text) => { output += text; } });
+  pyodide.setStderr({ batched:(text) => { output += "Error: " + text; }});
+
+  try {
+    await pyodide.runPythonAsync(userCode); 
+    document.getElementById("outputPython").innerText = output;
+  } catch (err) {
+    document.getElementById("outputPython").innerText = "did not work";
   }
+}
   </script>
 
 </body>
