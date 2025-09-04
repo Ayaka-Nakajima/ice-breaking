@@ -1,11 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Question Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Generator</title>
 </head>
+
 <body>
+  <p>Question Generator</p>
+  <div>
+    <p>Pick a topic (1-4)</p>
+    <ol>
+      <li>algorithm problems</li>
+      <li>for-loop problems</li>
+      <li>if-else problems</li>
+      <li>recursion problems</li>
+    </ol>
+  </div>
+
+  <form id="topicForm">
+  <input type="number" name="topic" min="1" max="4" id="topic">
+  <button type="submit">Submit</button>
+</form>
+  <p id="output"></p>
+  <br>
+  <br>
+
+<p>Please pick a number 1-5</p>
+   <form id = "problemForm">
+    <input type="number" name="problemNum" min = "1" max="5" id ="problemNum">
+    <button type="submit">submit</button>
+  </form> 
+  <p id="problemOutput"></p>
+  <br>
+  <br>
+  <p>Please enter your response here:</p>
+  <div>
+    <form>
+      <textarea id="userCode" rows="8" cols="60"></textarea>
+  <br>
+   <button type="button" onclick="runPython()">Run Python</button>
+  <pre id="outputPython"></pre>
+
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <script>
+    let problemsData = {}; // will store JSON data
+    let topic = ""; // store selected topic
+
     
+    fetch('problems.json')
+      .then(response => response.json())
+      .then(data => {
+        problemsData = data;
+      });
+
+    
+    document.getElementById("topicForm").addEventListener("submit", function (e) {
+      e.preventDefault(); 
+      const type = document.getElementById("topic").value;
+      let output = "";
+
+      if (type === "1") {
+        output = "you picked algorithm problems";
+        topic = "algo_problems";
+      } else if (type === "2") {
+        output = "you picked for-loop problems";
+        topic = "for_loop_problems";
+      } else if (type === "3") {
+        output = "you picked if-else problems";
+        topic = "if_else_problems";
+      } else if (type === "4") {
+        output = "you picked recursion problems";
+        topic = "recursion_problems";
+      }
+      document.getElementById("output").innerText = output;
+    });
+
+  
+    document.getElementById("problemForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const num = document.getElementById("problemNum").value;
+      if (topic && problemsData[topic]) {
+        const problem = problemsData[topic][num];
+        document.getElementById("problemOutput").innerText = problem;
+      } else {
+        document.getElementById("problemOutput").innerText = "Pick topic first pls.";
+      }
+    });
+
+    let pyodideReady = false;
+  let pyodide;
+
+  async function loadPyodideAndPackages() {
+    pyodide = await loadPyodide();
+    pyodideReady = true;
+    console.log("Pyodide loaded");
+  }
+
+  loadPyodideAndPackages();
+
+  async function runPython() {
+    if (!pyodideReady) {
+      alert("Python loading...");
+      return;
+    }
+
+    const userCode = document.getElementById("userCode").value;
+
+    let output = "";
+    pyodide.setStdout({
+      batched:(text) => { output += text; }
+    });
+    pyodide.setStderr({
+      batched:(text) => { output += "Error: " + text; }
+    });
+    
+    pyodide.setStdout({batched: console.log});
+    pyodide.setStderr({batched: console.error});
+  }
+  </script>
+
 </body>
+
 </html>
