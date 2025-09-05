@@ -51,7 +51,8 @@
     }
 
     body > div > p,
-    p[for="topic"] {
+    p[for="topic"],
+    p.section-title {
       margin: 0 0 8px;
       color: var(--muted);
       font-weight: 600;
@@ -104,9 +105,10 @@
       white-space: pre-wrap;
     }
 
+    
     #output{
-      display: inline-block;
-      margin-left: 8px;
+      display: block;
+      margin: 8px 0 0;
       color: var(--muted);
       font-weight: 600;
     }
@@ -131,45 +133,39 @@
   </div>
 
   <form id="topicForm">
-  <input type="number" name="topic" min="1" max="4" id="topic">
-  <button type="submit">Submit</button>
-</form>
-  <p id="output"></p>
-  <br>
-
-<p>Please pick a number 1-5</p>
-   <form id = "problemForm">
-    <input type="number" name="problemNum" min = "1" max="5" id ="problemNum">
-    <button type="submit">submit</button>
-  </form> 
-  <p id="problemOutput"></p>
-  <br>
-  <p>Please enter your Python here :</p>
-  <div>
+    <p class="section-title">Select a topic number:</p>
+    <input type="number" name="topic" min="1" max="4" id="topic">
+    <button type="submit">Submit</button>
+    <p id="output"></p>
+  </form>
+  <form id="problemForm">
+    <p class="section-title">Please pick a problem number 1-5</p>
+    <input type="number" name="problemNum" min="1" max="5" id="problemNum">
+    <button type="submit">Submit</button>
+    <pre id="problemOutput"></pre>
+  </form>  <div>
+    <p class="section-title">Please enter your Python here:</p>
     <form>
       <textarea id="userCode" rows="8" cols="60"></textarea>
-  <br>
-   <button type="button" onclick="runPython()">Run Python</button>
-  <pre id="outputPython"></pre>
-
+      <br>
+      <button type="button" onclick="runPython()">Run Python</button>
+      <pre id="outputPython"></pre>
     </form>
   </div>
 
   <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   <script>
-    let problemsData = {}; 
-    let topic = ""; 
+    let problemsData = {};
+    let topic = "";
 
-    
     fetch('problems.json')
       .then(response => response.json())
       .then(data => {
         problemsData = data;
       });
 
-    
     document.getElementById("topicForm").addEventListener("submit", function (e) {
-      e.preventDefault(); 
+      e.preventDefault();
       const type = document.getElementById("topic").value;
       let output = "";
 
@@ -185,57 +181,61 @@
       } else if (type === "4") {
         output = "you picked recursion problems";
         topic = "recursion_problems";
+      } else {
+        output = "please enter a number between 1 and 4";
+        topic = "";
       }
       document.getElementById("output").innerText = output;
     });
 
-  
     document.getElementById("problemForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      // const answer = document.getElementById[topic][num].test_cases[0].output;
       const num = document.getElementById("problemNum").value;
-      if (topic && problemsData[topic]) {
-        document.getElementById("problemOutput").innerText = "your question is : " + problemsData[topic][num].description + "\n testcase : " + problemsData[topic][num].test_cases[0].input + "\n \n answer should be: " + problemsData[topic][num].test_cases[0].output;
-        // console.log(answer);
-      } else {
+
+      if (topic && problemsData[topic] && problemsData[topic][num]) {
+        const q = problemsData[topic][num];
+        document.getElementById("problemOutput").innerText =
+          "your question is: " + q.description +
+          "\n test case: " + q.test_cases[0].input +
+          "\n\n answer should be: " + q.test_cases[0].output;
+      } else if (!topic) {
         document.getElementById("problemOutput").innerText = "Pick topic first pls.";
+      } else {
+        document.getElementById("problemOutput").innerText = "Problem not found. Pick 1-5.";
       }
     });
 
     let pyodideReady = false;
-  let pyodide;
+    let pyodide;
 
-  async function loadPyodideAndPackages() {
-    pyodide = await loadPyodide();
-    pyodideReady = true;
-    console.log("Pyodide loaded");
-  }
-
-  loadPyodideAndPackages();
-
-  async function runPython() {
-    if (!pyodideReady) {
-      alert("Python loading...");
-      return;
+    async function loadPyodideAndPackages() {
+      pyodide = await loadPyodide();
+      pyodideReady = true;
+      console.log("Pyodide loaded");
     }
 
-  const userCode = document.getElementById("userCode").value;
+    loadPyodideAndPackages();
 
-  let output = "";
+    async function runPython() {
+      if (!pyodideReady) {
+        alert("Python loading...");
+        return;
+      }
 
-  
-  pyodide.setStdout({ batched:(text) => { output += text; } });
-  pyodide.setStderr({ batched:(text) => { output += "Error: " + text; }});
+      const userCode = document.getElementById("userCode").value;
+      let output = "";
 
-  try {
-    await pyodide.runPythonAsync(userCode); 
-    document.getElementById("outputPython").innerText = output;
-  } catch (err) {
-    document.getElementById("outputPython").innerText = "did not work";
-  }
-}
+      pyodide.setStdout({ batched:(text) => { output += text; } });
+      pyodide.setStderr({ batched:(text) => { output += "Error: " + text; }});
+
+      try {
+        await pyodide.runPythonAsync(userCode);
+        document.getElementById("outputPython").innerText = output || "(no output)";
+      } catch (err) {
+        document.getElementById("outputPython").innerText = "did not work";
+      }
+    }
   </script>
 
 </body>
-
 </html>
