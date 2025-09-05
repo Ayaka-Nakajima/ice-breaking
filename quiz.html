@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Code Quiz App - Quiz</title>
-  <link rel="stylesheet" href="assets/css/style.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Pyodide: run Python in the browser -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
 </head>
 <body class="page page--quiz is-loading">
   <header class="site-header">
@@ -18,28 +20,28 @@
   </header>
 
   <main class="container">
-    <!-- Loading state (visible when .is-loading on body) -->
+    <!-- Loading -->
     <section class="panel panel--loading" aria-live="polite">
       <div class="spinner" aria-hidden="true"></div>
       <p class="muted">Loading questions…</p>
     </section>
 
-    <!-- Empty state (make body .is-empty to show) -->
+    <!-- Empty -->
     <section class="panel panel--empty" aria-live="polite">
       <h2>No questions yet</h2>
       <p class="muted">This section has no questions available right now.</p>
       <a class="btn" href="index.html">Choose another section</a>
     </section>
 
-    <!-- Ready state (make body .is-ready to show) -->
+    <!-- Ready -->
     <section class="panel panel--quiz">
       <header class="quiz-header">
         <div class="meta">
-          <span class="badge" id="question-counter">Q 1 / 10</span>
+          <span class="badge" id="question-counter">Q 1 / 1</span>
           <span class="badge badge--soft" id="difficulty">difficulty: —</span>
         </div>
         <div class="progress">
-          <div class="progress__bar" style="width: 0%;" aria-hidden="true"></div>
+          <div class="progress__bar" style="width:0%" aria-hidden="true"></div>
           <span class="visually-hidden" id="progress-label">0% completed</span>
         </div>
       </header>
@@ -49,14 +51,34 @@
         <pre class="question__prompt"><code id="prompt">The problem statement will appear here once data is loaded.</code></pre>
       </article>
 
+      <!-- Answer editor -->
+      <section class="editor">
+        <h3 class="editor__title">Your Answer</h3>
+        <label class="visually-hidden" for="answer">Write your solution here</label>
+        <textarea id="answer" class="editor__input" rows="12" placeholder="Type your Python code here..."></textarea>
+
+        <div class="editor__actions">
+          <button id="run-tests" class="btn" type="button">Run tests</button>
+          <button id="save-draft" class="btn btn--ghost" type="button">Save draft</button>
+          <button id="prev-q" class="btn btn--ghost" type="button">Prev</button>
+          <button id="next-q" class="btn" type="button">Next</button>
+        </div>
+      </section>
+
+      <!-- Test results -->
+      <section id="test-results" class="panel is-hidden" aria-live="polite">
+        <h3 style="margin-top:0">Test Results</h3>
+        <div id="test-summary" class="muted">Not run yet.</div>
+        <ol id="test-list"></ol>
+      </section>
+
       <div class="actions">
         <a class="btn btn--ghost" href="index.html">Cancel</a>
-        <!-- 将来JSで result.html へ遷移させる -->
-        <a class="btn" href="result.html">Finish</a>
+        <a class="btn" id="finish-link" href="result.html">Finish</a>
       </div>
 
       <footer class="question-footer">
-        <p class="muted">Tip: Keyboard 1–4 for options (if MCQ), or type your code in the editor (future).</p>
+        <p class="muted">Tip: Use input() for reading and print() for outputs. Click “Run tests” to check the code.</p>
       </footer>
     </section>
   </main>
@@ -67,10 +89,160 @@
     </div>
   </footer>
 
-  <!-- ※ JSON/JS が入るまではクラスで状態を切り替えるメモ
-       body.is-loading  … panel--loading が表示
-       body.is-empty    … panel--empty が表示
-       body.is-ready    … panel--quiz が表示
-  -->
+  <!-- Embedded problems.json（あなたのJSONを貼り付け済みの場合はそのままでOK） -->
+  <script id="problems-json" type="application/json">
+    {
+    "if_else_problems": {
+    "1": {
+        "description": "Write a program that takes an integer and prints whether it is positive, negative, or zero.",
+        "test_cases": [
+        { "input": 10,  "output": "Positive" },
+        { "input": -5,  "output": "Negative" },
+        { "input": 0,   "output": "Zero" }
+        ]
+    },
+    "2": {
+        "description": "Write a program that takes an integer and prints whether it is even or odd.",
+        "test_cases": [
+        { "input": 4, "output": "Even" },
+        { "input": 7, "output": "Odd" }
+        ]
+    },
+    "3": {
+        "description": "Write a program that checks if a number is divisible by 3.",
+        "test_cases": [
+        { "input": 9,  "output": "Yes" },
+        { "input": 10, "output": "No" }
+        ]
+    },
+    "4": {
+        "description": "Write a program that checks if a person is eligible to vote (18 or older).",
+        "test_cases": [
+        { "input": 20, "output": "Eligible" },
+        { "input": 16, "output": "Not Eligible" }
+        ]
+    },
+    "5": {
+        "description": "Write a program that checks if a year is a leap year.",
+        "test_cases": [
+        { "input": 2020, "output": "Leap Year" },
+        { "input": 2021, "output": "Not Leap Year" }
+        ]
+    }
+    },
+    "for_loop_problems": {
+    "1": {
+        "description": "Write a program that prints numbers from 1 to n.",
+        "test_cases": [
+        { "input": 5, "output": "1 2 3 4 5" }
+        ]
+    },
+    "2": {
+        "description": "Write a program that prints the sum of numbers from 1 to n.",
+        "test_cases": [
+        { "input": 5, "output": "15" },
+        { "input": 10, "output": "55" }
+        ]
+    },
+    "3": {
+        "description": "Write a program that prints the multiplication table of n (up to 10).",
+        "test_cases": [
+        { "input": 2, "output": "2 4 6 8 10 12 14 16 18 20" }
+        ]
+    },
+    "4": {
+        "description": "Write a program that counts the number of vowels in a string.",
+        "test_cases": [
+        { "input": "hello", "output": "2" },
+        { "input": "xyz",   "output": "0" }
+        ]
+    },
+    "5": {
+        "description": "Write a program that calculates the factorial of n.",
+        "test_cases": [
+        { "input": 5, "output": "120" },
+        { "input": 0, "output": "1" }
+        ]
+        }
+    },
+
+    "recursion_problems": {
+    "1": {
+        "description": "Write a recursive program to calculate factorial of n.",
+        "test_cases": [
+        { "input": 5, "output": "120" },
+        { "input": 0, "output": "1" }
+        ]
+    },
+    "2": {
+        "description": "Write a recursive program to calculate the nth Fibonacci number.",
+        "test_cases": [
+        { "input": 5, "output": "5" },
+        { "input": 10, "output": "55" }
+        ]
+    },
+    "3": {
+        "description": "Write a recursive program to calculate the sum of digits of a number.",
+        "test_cases": [
+        { "input": 123, "output": "6" },
+        { "input": 999, "output": "27" }
+        ]
+    },
+    "4": {
+        "description": "Write a recursive program to reverse a string.",
+        "test_cases": [
+        { "input": "abc", "output": "cba" }
+        ]
+    },
+    "5": {
+        "description": "Write a recursive program to check if a string is a palindrome.",
+        "test_cases": [
+        { "input": "racecar", "output": "Yes" },
+        { "input": "hello",   "output": "No" }
+        ]
+    }
+    },
+    "algo_problems": {
+    "1": {
+        "description": "Write a program that takes an integer and prints whether it is positive, negative, or zero.",
+        "test_cases": [
+        { "input": 10, "output": "Positive" },
+        { "input": -3, "output": "Negative" },
+        { "input": 0,  "output": "Zero" }
+        ]
+    },
+    "2": {
+        "description": "Write a program to find the maximum of three numbers.",
+        "test_cases": [
+        { "input": "3 7 5", "output": "7" }
+        ]
+    },
+    "3": {
+        "description": "Write a program to sort a list of numbers in ascending order.",
+        "test_cases": [
+        { "input": "3 1 2", "output": "1 2 3" }
+        ]
+    },
+    "4": {
+        "description": "Write a program to check if a number is prime.",
+        "test_cases": [
+        { "input": 7, "output": "Prime" },
+        { "input": 8, "output": "Not Prime" }
+        ]
+    },
+    "5": {
+        "description": "Write a program to calculate the GCD of two numbers.",
+        "test_cases": [
+        { "input": "24 36", "output": "12" }
+        ]
+        }
+        }
+    }
+
+
+  </script>
+
+  <!-- Page JS -->
+  <script src="quiz.js" defer></script>
 </body>
 </html>

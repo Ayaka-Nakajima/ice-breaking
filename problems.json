@@ -1,0 +1,133 @@
+{
+  "algo_problems": {
+    "1": {
+      "description": "Write a program that takes an integer and prints whether it is positive, negative, or zero.",
+      "test_cases": [
+        {"input": 5, "output": "Positive"}
+      ]
+    },
+    "2": {
+      "description": "Given three numbers, print the largest one.",
+      "test_cases": [
+        {"input": [3,7,5], "output": 7}
+      ]
+    },
+    "3": {
+      "description": "Write a program that checks if a number is even or odd without using %.",
+      "test_cases": [
+        {"input": 4, "output": "Even"}
+      ]
+    },
+    "4": {
+      "description": "Write a program that asks for a year and prints whether it is a leap year.",
+      "test_cases": [
+        {"input": 2024, "output": "Leap year"}
+      ]
+    },
+    "5": {
+      "description": "Given a character input, determine if it is a vowel or a consonant.",
+      "test_cases": [
+        {"input": "a", "output": "Vowel"}
+      ]
+    }
+  },
+
+  "for_loop_problems": {
+    "1": {
+      "description": "Print the first 10 natural numbers using a for loop.",
+      "test_cases": [
+        {"input": null, "output": "1 2 3 4 5 6 7 8 9 10"}
+      ]
+    },
+    "2": {
+      "description": "Find the factorial of a given number using a for loop.",
+      "test_cases": [
+        {"input": 5, "output": 120}
+      ]
+    },
+    "3": {
+      "description": "Print the multiplication table of a number.",
+      "test_cases": [
+        {"input": 3, "output": "3 6 9 12 15 18 21 24 27 30"}
+      ]
+    },
+    "4": {
+      "description": "Calculate the sum of digits of a number using a loop.",
+      "test_cases": [
+        {"input": 123, "output": 6}
+      ]
+    },
+    "5": {
+      "description": "Print all prime numbers from 1 to 100.",
+      "test_cases": [
+        {"input": null, "output": "2 3 5 7 ... 97"}
+      ]
+    }
+  },
+
+  "if_else_problems": {
+    "1": {
+      "description": "Write a program that takes an integer and prints whether it is positive, negative, or zero.",
+      "test_cases": [
+        {"input": 10, "output": "Positive"}
+      ]
+    },
+    "2": {
+      "description": "Given three numbers, print the largest one.",
+      "test_cases": [
+        {"input": [1,2,3], "output": 3}
+      ]
+    },
+    "3": {
+      "description": "Write a program that checks if a number is even or odd without using %.",
+      "test_cases": [
+        {"input": 8, "output": "Even"}
+      ]
+    },
+    "4": {
+      "description": "Write a program that asks for a year and prints whether it is a leap year.",
+      "test_cases": [
+        {"input": 2000, "output": "Leap year"}
+      ]
+    },
+    "5": {
+      "description": "Given a character input, determine if it is a vowel or a consonant.",
+      "test_cases": [
+        {"input": "i", "output": "Vowel"}
+      ]
+    }
+  },
+
+  "recursion_problems": {
+    "1": {
+      "description": "Implement Fibonacci sequence using recursion.",
+      "test_cases": [
+        {"input": 5, "output": [0,1,1,2,3]}
+      ]
+    },
+    "2": {
+      "description": "Write a recursive function to compute the factorial of a number.",
+      "test_cases": [
+        {"input": 4, "output": 24}
+      ]
+    },
+    "3": {
+      "description": "Implement a recursive function that counts the number of nodes in a binary tree.",
+      "test_cases": [
+        {"input": {"root": {"val":1,"left":null,"right":null}}, "output": 1}
+      ]
+    },
+    "4": {
+      "description": "Write a recursive function that finds the height of a binary tree.",
+      "test_cases": [
+        {"input": {"root": {"val":1,"left":null,"right":null}}, "output": 1}
+      ]
+    },
+    "5": {
+      "description": "Implement a recursive function to reverse a string.",
+      "test_cases": [
+        {"input": "hello", "output": "olleh"}
+      ]
+    }
+  }
+}
