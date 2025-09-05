@@ -5,6 +5,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question Generator</title>
+  <style>
+    :root{
+      --bg: #f5f7fa;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --brand: #2563eb;
+      --border: #e5e7eb;
+    }
+
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    body > *{
+      max-width: 960px;
+      margin-inline: auto;
+      padding-inline: 16px;
+    }
+
+    body > p:first-of-type,
+    body > div,
+    form#topicForm,
+    form#problemForm,
+    body > div:last-of-type {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    body > p:first-of-type{
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    body > div > p,
+    p[for="topic"] {
+      margin: 0 0 8px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    ol{
+      margin: 8px 0 0;
+      padding-left: 20px;
+    }
+    ol li{ margin: 2px 0; }
+
+    input[type="number"], textarea{
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font: inherit;
+      background: #fff;
+    }
+    textarea{ min-height: 160px; }
+
+    button{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--brand);
+      color: #fff;
+      background: var(--brand);
+      font-weight: 600;
+      cursor: pointer;
+      transition: filter .15s ease, transform .05s ease;
+      margin-top: 10px;
+    }
+    button:hover{ filter: brightness(1.05); }
+    button:active{ transform: translateY(1px); }
+
+    #problemOutput,
+    #outputPython{
+      display: block;
+      background: #0f172a;
+      color: #e5e7eb;
+      border: 1px solid #111827;
+      border-radius: 10px;
+      padding: 14px 16px;
+      overflow: auto;
+      margin-top: 10px;
+      white-space: pre-wrap;
+    }
+
+    #output{
+      display: inline-block;
+      margin-left: 8px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    form#topicForm > input,
+    form#problemForm > input{
+      margin-top: 6px;
+    }
+  </style>
 </head>
 
 <body>
