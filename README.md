@@ -42,14 +42,12 @@ ice-breaking/
 
 * A modern browser (such as latest Chrome)
 
-## Quick Start
+## Quick Start with VS code
 
 1. Place the files as shown in the Project Structure
-2. copy the path to the file such as the following structure
-(file:///C:/Users/username/codes/ice-breaking/index.html#)
-3. Enter the path to your browser
-4. Enter a topic number (1–4), then a problem number (1–5)
-5. Write Python code and click **Run Python**
+2. Go Live(local hosting)
+3. Enter a topic number (1–4), then a problem number (1–5)
+4. Write Python code and click **Run Python**
 
 ---
 
@@ -122,11 +120,6 @@ ice-breaking/
 ---
 
 ## Troubleshooting
-
-**Q. Problems don’t load**
-
-* If `file://` doesn't work → must use `http://localhost` by some HTTP server.
-* Check `problems.json` syntax (valid JSON, no trailing commas).
 
 **Q. “Pick topic first pls.”**
 
