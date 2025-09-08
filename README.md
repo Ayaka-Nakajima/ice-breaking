@@ -45,7 +45,7 @@ ice-breaking/
 ## Quick Start with VS code
 
 1. Place the files as shown in the Project Structure
-2. Go Live(local hosting)
+2. Go Live(local hosting) on VS code the button is at right side down of the VS code page
 3. Enter a topic number (1–4), then a problem number (1–5)
 4. Write Python code and click **Run Python**
 
